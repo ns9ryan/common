@@ -2,6 +2,7 @@ package mixins
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/mixin"
 )
@@ -14,9 +15,11 @@ type StatusMixin struct {
 // Fields 定义通用状态字段
 func (StatusMixin) Fields() []ent.Field {
 	return []ent.Field{
-		field.Uint8("status").
+		field.Uint32("status").
 			Default(1).
-			Optional().
+			SchemaType(map[string]string{
+				dialect.Postgres: "smallint",
+			}).
 			Comment("状态：1 正常，2 停用"),
 	}
 }
